@@ -1,0 +1,23 @@
+{
+  "name": "backend-test-i",
+  "version": "1.0.0",
+  "description": "A twitter bot that fetch users base on hashtag or number of followers",
+  "scripts": {
+    "test": "mocha test",
+    "start": "node twitter_bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tonespy/dev_center_test.git"
+  },
+  "author": "Abubakar Oladeji",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tonespy/dev_center_test/issues"
+  },
+  "homepage": "https://github.com/tonespy/dev_center_test#readme",
+  "dependencies": {
+    "mocha": "^5.0.1",
+    "twit": "^2.2.9"
+  }
+}
