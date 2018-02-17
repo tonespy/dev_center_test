@@ -36,6 +36,47 @@ This fictitious project is part of a larger plan to reuse templates for multiple
 
 We look forward to seeing what you can do. Remember, although it is a test, there are no specific right or wrong answers that we are looking for - just do the job as best you can. Any questions - create an issue in the panel on the right (requires a Github account).
 
+## Solution
+
+The bot provides the following features
+* Search for tweets in a hashtag
+* Listen for tweets being posted in a hashtag
+
+The bot uses the following Node packages
+* command-line interfaces: [commander](https://github.com/tj/commander.js/)
+* command-line prompt: [inquirer](https://github.com/SBoudrias/Inquirer.js#documentation)
+* csvtojson for converting csv to json: [csvtojson](https://github.com/Keyang/node-csvtojson)
+* csv-writer convert objects/arrays to csv: [csv-writer](https://github.com/ryu1kn/csv-writer)
+* mocha for testing: [mocha](https://mochajs.org/)
+* twit, twitter api client holder: [twit](https://github.com/ttezel/twit)
+
+# Getting Started
+
+### Installing modules
+Setup node by going to [NodeJs](https://nodejs.org/en/)
+
+```
+# go into project root directory and install packages
+npm install
+```
+
+### Running Project
+```
+# For a quick search
+npm run qs
+
+# For a bot that runs until it terminates after an error
+npm run bot
+```
+
+## Testing Project
+```
+# To test project, run:
+npm test
+
+# or install mocha globally ( npm install mocha -g) and run
+mocha
+```
 
 ## Demo
 ![screen shot](https://user-images.githubusercontent.com/8668661/33088863-330b4250-ceef-11e7-9e9c-b4fd9ca299d8.gif)
