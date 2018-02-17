@@ -78,5 +78,10 @@ npm test
 mocha
 ```
 
+## Possible Improvements
+* Code cleanup by moving helper functions into another file
+* Provide user with more functionalities rather than just limiting them to only provide hashtags(E.g: Provide mas number of tweets being expected etc)
+* More and more tests
+
 ## Demo
 ![screen shot](https://user-images.githubusercontent.com/8668661/33088863-330b4250-ceef-11e7-9e9c-b4fd9ca299d8.gif)
