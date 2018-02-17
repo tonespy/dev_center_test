@@ -4,7 +4,8 @@
   "description": "A twitter bot that fetch users base on hashtag or number of followers",
   "scripts": {
     "test": "mocha test",
-    "start": "node twitter_bot.js"
+    "bot": "node twitter_bot.js f",
+    "qs": "node twitter_bot.js qf"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,10 @@
   },
   "homepage": "https://github.com/tonespy/dev_center_test#readme",
   "dependencies": {
+    "commander": "^2.14.1",
+    "csv-writer": "0.0.3",
+    "csvtojson": "^1.1.9",
+    "inquirer": "^5.1.0",
     "mocha": "^5.0.1",
     "twit": "^2.2.9"
   }
