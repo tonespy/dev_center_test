@@ -1,21 +1,31 @@
 #!/usr/bin/env node
 // Import the Twitter API helper
 const Twit = require('twit')
-const { questions, config } = require('./config')
+const { questions, config } = require('./config/config')
 const createCsvWriter = require('csv-writer').createObjectCsvWriter
 const csv = require('csvtojson')
 const fs = require('fs')
 const commander = require('commander')
 const { prompt } = require('inquirer');
+const spreadsheet = require('./google_spreadsheet/google_spreadsheet')
+const authentication = require('./google_spreadsheet/google_authentication')
 
 const Twitter = new Twit(config)
 
-const searchByHashtag = async(hashtags) => {
+const searchByHashtag = async(hashtags, saveToGSpreadsheet) => {
     const search = await searchHelper(stringModifier(hashtags, /\W+/g, ' OR '))
     if (isError(search)) return search
 
-    const saveTocsv = await csvHelper(search.data.statuses, hashtags)
-    if (isError(saveTocsv)) return saveTocsv
+    const filteredData = search.data.statuses.filter(status => (status.user.followers_count >= 1000 && status.user.followers_count <= 50000))
+
+    let saveTocsv = null
+    if (saveToGSpreadsheet) {
+        saveTocsv = [null, filteredData]
+        saveToGGSS(filteredData)
+    } else {
+        saveTocsv = await csvHelper(filteredData, hashtags)
+        if (isError(saveTocsv)) return saveTocsv
+    }
 
     return saveTocsv[1]
 }
@@ -49,7 +59,6 @@ const csvHelper = async(data, hashtags) => {
 
     if (data instanceof Array) {
         data
-            .filter(status => (status.user.followers_count >= 1000 && status.user.followers_count <= 50000))
             .forEach(element => {
                 filterStatus.push({ name: element.user.name, follower_count: element.user.followers_count })
             });
@@ -120,12 +129,63 @@ const isError = (e) => {
  * hashtagstream - Listen for tweets being posted in the provided hashtag
  * @param {string} hashtags 
  */
-const hashtagstream = async(hashtags) => {
+const hashtagstream = async (hashtags, saveToGSpreadsheet) => {
     let stream = Twitter.stream('statuses/filter', { track: hashtags, language: 'en' })
+    const spreadsheetName = stringModifier(hashtags, /\W+/g, '_')
+
+    if (saveToGSpreadsheet) {
+        const authenticate = await authentication.authenticate()
+        if (isError(authenticate)) {
+            console.log('Error Authenticating With Google.')
+            return
+        }
+    }
+
     stream.on('tweet', (tweet) => {
-        csvHelper(tweet, hashtags).then(saveData => {
-            console.log("SaveData Count: ", saveData[1].length)
-        }).catch(err => stream.stop())
+        if (!saveToGSpreadsheet) {
+            csvHelper(tweet, hashtags).then(saveData => {
+                console.log("SaveData Count: ", saveData[1].length)
+            }).catch(err => process.exit())
+        } else {
+            const data = [tweet.user.name, tweet.user.followers_count, tweet.user.description]
+            saveToGGSS(data)
+        }
+    })
+}
+
+const saveToGGSS = (tweet) => {
+    let data = []
+    if (tweet[0] instanceof Array) {
+        
+        tweet.forEach(element => {
+            data.push([element.user.name, element.user.followers_count, element.user.description])
+        });
+    } else { data = [tweet] }
+
+    spreadsheet.appenData(data).then(response => {
+        if (data[0] instanceof Array) {
+            data.forEach(value => {
+                console.log('=================================================================================')
+                console.log(`Visit https://docs.google.com/spreadsheets/d/${response.spreadsheetId}/edit#git=0`)
+                console.log("User:", value[0])
+                console.log("Follower Count:", value[1])
+                console.log("Description:", value[2])
+                console.log('=================================================================================')
+            })
+        } else {
+            console.log('=================================================================================')
+            console.log(`Visit https://docs.google.com/spreadsheets/d/${response.spreadsheetId}/edit#git=0`)
+            console.log("User:", data[0])
+            console.log("Follower Count:", data[1])
+            console.log("Description:", data[2])
+            console.log('=================================================================================')
+        }
+        
+    }).catch(err => {
+        if (err.message.includes('quota')) {
+            console('Write Quota Limit Exceeded')
+        } else { console.log(err) }
+        process.exit()
     })
 }
 
@@ -136,7 +196,7 @@ commander
     .action(() => {
         prompt(questions).then(answers => {
             const hashtags = answers.hashtag
-            hashtagstream(stringModifier(hashtags, /\W+/g, ' ,'))
+            hashtagstream(stringModifier(hashtags, /\W+/g, ' ,'), answers.gSpread)
         }).catch(err => console.log(err))
     })
 
@@ -146,9 +206,9 @@ commander
     .description('Quick Fecth Users ')
     .action(() => {
         prompt(questions).then(answers => {
-            searchByHashtag(stringModifier(answers.hashtag, /\W+/g, ' ,')).then(saveData => {
+            searchByHashtag(stringModifier(answers.hashtag, /\W+/g, ' ,'), answers.gSpread).then(saveData => {
                 console.log("SaveData Count: ", saveData.length)
-            }).catch(err => stream.stop())
+            }).catch(err => process.exit())
         }).catch(err => console.log(err))
     })
 commander.parse(process.argv);
