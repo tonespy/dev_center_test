@@ -49,6 +49,8 @@ The bot uses the following Node packages
 * csv-writer convert objects/arrays to csv: [csv-writer](https://github.com/ryu1kn/csv-writer)
 * mocha for testing: [mocha](https://mochajs.org/)
 * twit, twitter api client holder: [twit](https://github.com/ttezel/twit)
+* Google APIs, Googgle api client: [googleapis](https://www.npmjs.com/package/googleapis)
+* Google OAuth, google-auth-library client: [google-auth-library](https://www.npmjs.com/package/google-auth-library)
 
 # Getting Started
 
@@ -73,6 +75,23 @@ config = {
     path: './out/'
 }
 ```
+
+### Get Google Configuration file
+* Login to your google account
+* Use [this wizard](https://console.developers.google.com/start/api?id=sheets.googleapis.com) to create or select a project in the Google Developers Console and automatically turn on the API.
+* After landing to the console page, click `Continue` button.
+* Now click on `Go to credentials button`.
+* On the Add credentials to your project page, click the Cancel button.
+* Click on the `OAuth consent screen tab`.
+* Select an Email address, enter a Product name if not already set, and click the `Save` button.
+* Select the Credentials tab (probably it’s already selected by now), click the `Create credentials` button and select `OAuth client ID`.
+* Select the application type Other and enter the name “WhatsoeverYouWant”, and click the Create button.
+* Click OK to dismiss the resulting dialog.
+* You should see a download icon at the right side. Click on this to download the json file containing credentials.
+* Rename the file as `credentials.json` and save in the `config.json` in your root directory
+
+For more info on quick guide with google spreadsheet
+[Paul Shaun's Blog](http://voidcanvas.com/node-js-googleapis-v4-spreadsheet/)
 
 ### Running Project
 ```
