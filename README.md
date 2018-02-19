@@ -102,6 +102,17 @@ npm run qs
 npm run bot
 ```
 
+### Authenticating With Google
+To modify/create/update google spreadsheet, user needs to authenticate with google. Which can be done as follows:
+
+* After running any of the command above and you choose yes, you'll get a command prompt with a URL Example:
+![Initial Run](./url_check.png)
+
+* Go to the url and follow the instruction. Once done, copy the code in the url and paste it in the terminal. Example.
+Texts after `code=` to texts before `#`
+![Code](./code_image.png)
+
+
 ## Testing Project
 ```
 # To test project, run:
