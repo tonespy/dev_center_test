@@ -60,6 +60,20 @@ Setup node by going to [NodeJs](https://nodejs.org/en/)
 npm install
 ```
 
+### Setup Config keys by creating a twitter App [here](https://apps.twitter.com/)
+```
+Modify keys in config.js to include 
+Note: You can put the key there directly instead of adding it to the environmental variable itself.
+
+config = {
+    consumer_key: process.env.bot_twitter_consumer_key,
+    consumer_secret: process.env.bot_twitter_consumer_secret,
+    access_token: process.env.bot_twitter_access_token,
+    access_token_secret: process.env.bot_twitter_access_token_secret,
+    path: './out/'
+}
+```
+
 ### Running Project
 ```
 # For a quick search
