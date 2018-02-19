@@ -21,6 +21,8 @@
     "commander": "^2.14.1",
     "csv-writer": "0.0.3",
     "csvtojson": "^1.1.9",
+    "google-auth-library": "^0.12.0",
+    "googleapis": "24.0.0",
     "inquirer": "^5.1.0",
     "mocha": "^5.0.1",
     "twit": "^2.2.9"
