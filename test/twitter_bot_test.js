@@ -35,7 +35,7 @@ describe('Test', () => {
     }).timeout(5000)
 
     it('should test hashtag search is working fine:', (done) => {
-        searchByHashtag("nba, #football, basketball").then(data => {
+        searchByHashtag("nba, #football, basketball", false).then(data => {
             assert.ok(data.length > 0)
             done()
         }).catch(err => {
