@@ -88,7 +88,7 @@ config = {
 * Select the application type Other and enter the name “WhatsoeverYouWant”, and click the Create button.
 * Click OK to dismiss the resulting dialog.
 * You should see a download icon at the right side. Click on this to download the json file containing credentials.
-* Rename the file as `credentials.json` and save in the `config.json` in your root directory
+* Rename the file as `credentials.json` and save in the `config.json` in the `config` directory located in the root of the project
 
 For more info on quick guide with google spreadsheet
 [Paul Shaun's Blog](http://voidcanvas.com/node-js-googleapis-v4-spreadsheet/)
