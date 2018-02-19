@@ -18,6 +18,11 @@ const questions = [
         type: 'input',
         name: 'hashtag',
         message: 'Enter hashtag(s) separated by comma or space (nba, #basketall football, javelin)'
+    },
+    {
+        type: 'confirm',
+        name: 'gSpread',
+        message: 'Would you like to save it to a Google Spreadsheet file, or have it save it to a csv file locally? Yes=Google, No=Localy (default = yes)'
     }
 ];
 
